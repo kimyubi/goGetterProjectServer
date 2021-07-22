@@ -17,9 +17,9 @@ public class ManagerPagingConverter implements RepresentationModelAssembler<Defa
     @Override
     public EntityModel<DefaultRes<Page<UserSearchResponseDto>>> toModel(DefaultRes<Page<UserSearchResponseDto>> defaultRes) {
         return EntityModel.of(defaultRes, linkTo( methodOn ( UserManagementController.class ).totalMemberFindAll(null)).withRel("Find-All"),
-                                          linkTo( methodOn( UserManagementController.class ).totalBKMemberFindAll(null)).withRel("BK-Find-All"),
                                           linkTo( methodOn( UserManagementController.class ).nameSearch(null, null)).withRel("nameSearch"),
                                           linkTo( methodOn( UserManagementController.class ).emailSearch(null, null)).withRel("emailSearch"),
-                                          linkTo( methodOn( UserManagementController.class ).nickNameSearch(null, null)).withRel("nickNameSearch"));
+                                          linkTo( methodOn( UserManagementController.class ).nickNameSearch(null, null)).withRel("nickNameSearch"),
+                                          linkTo( methodOn( UserManagementController.class ).gradeSearch(null, null)).withRel("gradeSearch"));
     }
 }

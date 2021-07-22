@@ -17,13 +17,13 @@ public class Message {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "sender_id")
-    private User sender;
+    @ManyToOne(targetEntity = MessageRoom.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "message_room_id")
+    private MessageRoom messageRoom;
 
     @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "receiver_id")
-    private User receiver;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     private String content;
 
@@ -35,9 +35,9 @@ public class Message {
     private Boolean isDeleted;
 
     @Builder
-    public Message(User receiver, User sender, String content) {
-        this.receiver = receiver;
-        this.sender = sender;
+    public Message(MessageRoom messageRoom, User user, String content) {
+        this.messageRoom = messageRoom;
+        this.user = user;
         this.content = content;
         this.isChecked = false;
         this.isDeleted = false;

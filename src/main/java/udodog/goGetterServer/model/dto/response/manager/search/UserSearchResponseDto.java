@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import udodog.goGetterServer.model.enumclass.UserGrade;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
 @Getter
 @NoArgsConstructor
@@ -28,14 +27,4 @@ public class UserSearchResponseDto {
         this.userGrade = userGrade;
         this.createdAt = createdAt;
     } // 생성자 끝
-
-//    public UserSearchResponseDto(Optional<UserSearchResponseDto> memberInfo) {
-//        this.userId = memberInfo.get().getUserId();
-//        this.email = memberInfo.get().getEmail();
-//        this.name = memberInfo.get().getName();
-//        this.phoneNumber = memberInfo.get().getPhoneNumber();
-//        this.nickName = memberInfo.get().getNickName();
-//        this.userGrade = memberInfo.get().getUserGrade();
-//        this.createdAt = memberInfo.get().getCreatedAt();
-//    } // Optional 생성자 끝
 } // Class 끝

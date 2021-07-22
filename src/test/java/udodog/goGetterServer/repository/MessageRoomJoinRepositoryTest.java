@@ -1,6 +1,7 @@
 package udodog.goGetterServer.repository;
 
-import org.junit.jupiter.api.DisplayName;
+
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -8,29 +9,31 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import udodog.goGetterServer.config.JpaAuditingConfig;
-import udodog.goGetterServer.model.entity.Message;
 import udodog.goGetterServer.model.entity.MessageRoom;
+import udodog.goGetterServer.model.entity.MessageRoomJoin;
 import udodog.goGetterServer.model.entity.User;
 import udodog.goGetterServer.model.enumclass.UserGrade;
-import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(
         type = FilterType.ASSIGNABLE_TYPE,
         classes = JpaAuditingConfig.class
 ))
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class MessageRepositoryTest {
+public class MessageRoomJoinRepositoryTest {
 
-    @Autowired private  UserRepository userRepository;
-    @Autowired private  MessageRepository messageRepository;
-    @Autowired private  MessageRoomRepository messageRoomRepository;
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private MessageRoomRepository messageRoomRepository;
+
+    @Autowired
+    private MessageRoomJoinRepository messageRoomJoinRepository;
 
     @Test
-    @DisplayName("Message Repository Save Test")
-    void saveMessage(){
+    public void save(){
 
-        //given
-        User user1 = User.builder().
+        User user = User.builder().
                 email("testEmail@gmail.com").
                 phoneNumber("010-1234-5678").
                 name("sender").
@@ -41,21 +44,18 @@ class MessageRepositoryTest {
 
         MessageRoom messageRoom = new MessageRoom();
 
-        User sender = userRepository.save(user1);
+        User saveUser = userRepository.save(user);
         MessageRoom saveMessageRoom = messageRoomRepository.save(messageRoom);
 
+        MessageRoomJoin messageRoomJoin = MessageRoomJoin.builder()
+                .messageRoom(saveMessageRoom)
+                .user(saveUser)
+                .build();
 
-        Message message = Message.builder().
-                          messageRoom(saveMessageRoom).
-                          user(sender).
-                          content("Message Test Content").
-                          build();
+        MessageRoomJoin saveMessageRoomJoin = messageRoomJoinRepository.save(messageRoomJoin);
 
-        //when
-        Message saveMessage = messageRepository.save(message);
+        Assertions.assertThat(saveMessageRoomJoin).isEqualTo(messageRoomJoin);
 
-        //then
-        assertThat(saveMessage).isEqualTo(message);
     }
 
 }

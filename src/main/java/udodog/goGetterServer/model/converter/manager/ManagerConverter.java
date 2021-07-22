@@ -15,6 +15,8 @@ public class ManagerConverter implements RepresentationModelAssembler<DefaultRes
 
     @Override
     public EntityModel<DefaultRes<UserSearchResponseDto>> toModel(DefaultRes<UserSearchResponseDto> entity) {
-        return EntityModel.of(entity, linkTo ( methodOn ( UserManagementController.class ).memberDetail(null)).withRel("detail"));
+        return EntityModel.of(entity, linkTo ( methodOn ( UserManagementController.class ).memberDetail(null)).withRel("detail"),
+                                      linkTo ( methodOn( UserManagementController.class ).updateMemberGrade(null, null)).withRel("update"),
+                                      linkTo ( methodOn( UserManagementController.class ).blackMemberWithdrawal(null, null)).withRel("withdrawal"));
     } // toModel() 끝
 } // Class 끝
