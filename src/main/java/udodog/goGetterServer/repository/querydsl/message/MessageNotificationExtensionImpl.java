@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import udodog.goGetterServer.model.entity.Message;
 import udodog.goGetterServer.model.entity.QMessage;
 
+import java.util.List;
+
 public class MessageNotificationExtensionImpl  extends QuerydslRepositorySupport implements MessageNotificationExtension {
 
     public MessageNotificationExtensionImpl() {
@@ -20,5 +22,17 @@ public class MessageNotificationExtensionImpl  extends QuerydslRepositorySupport
                 .where(message.isChecked.isFalse()).fetchCount();
 
         return uncheckedCnt;
+    }
+
+    @Override
+    public List<Message> findByReceiverIdAndSenderId(Long userId1, Long userId2) {
+        QMessage message = QMessage.message;
+        JPQLQuery<Message> query = from(message)
+                .orderBy(message.sendAt.desc())
+                .where(message.receiver.id.eq(userId1))
+                .where(message.sender.id.eq(userId2));
+
+
+        return query.fetch();
     }
 }
